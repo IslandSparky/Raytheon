@@ -238,7 +238,7 @@ def SUB():
   global PCR,ACR,IXR,MBR,MAR,INR,MSR,MEMORY
   MAR = alu_wordaddress()
   value = MEMORY[MAR]
-  value = alu_extendwordsign(ACR) - alu_extendwordsign(value) # do the add with extended signs
+  value = alu_extendwordsign(ACR) - alu_extendwordsign(value) # do the sub with extended signs
   checkoverflow(value)  # check for overflow
   ACR = value & 0xFFFF       # trim result to 16 bits
   alu_setexr()
@@ -246,21 +246,21 @@ def SUB():
 
 def ORI():
   global PCR,ACR,IXR,MBR,MAR,INR,MSR,MEMORY
-  MAR = self.alu_wordaddress()
+  MAR = alu_wordaddress()
   ACR = MEMORY[MAR] | ACR
   alu_setexr()
   return
 
 def ORE():
   global PCR,ACR,IXR,MBR,MAR,INR,MSR,MEMORY
-  MAR = self.alu_wordaddress()
+  MAR = alu_wordaddress()
   ACR = MEMORY[MAR] ^ ACR
   alu_setexr()
   return
 
 def AND():
   global PCR,ACR,IXR,MBR,MAR,INR,MSR,MEMORY
-  MAR = self.alu_wordaddress()
+  MAR = alu_wordaddress()
   ACR = MEMORY[MAR] & ACR
   alu_setexr()
   return
@@ -1301,11 +1301,6 @@ def corerestore_handler(button_object):
       MEMORY[i] = int(MEMORY[i],0)  
   button_object.toggle()  # turn off the indicator
   return
-
-
-
-
-
 
 
 # function to handle click on a PCR LED, called with a LED object

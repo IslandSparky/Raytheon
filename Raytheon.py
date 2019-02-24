@@ -220,7 +220,7 @@ def LDW():
 def LDX():
   global PCR,ACR,IXR,MBR,MAR,INR,MSR,MEMORY    
   MAR = alu_wordaddress()
-  LDX = MEMORY[MAR]
+  IXR = MEMORY[MAR]
   alu_setexr
   return
 
@@ -571,10 +571,10 @@ def DOT():                    # direct output
   print('Stub for DOT')
   return
 
-def IXS():                    # increment index and skip greater than zero
+def IXS():                    # increment index and skip greater or equal zero
   global IXR,PCR,INR
   IXR = alu_extendwordsign(IXR) + (INR & 0x00FF)      # increment index
-  if (alu_extendwordsign(IXR) > 0): PCR += 1
+  if (IXR >= 0): PCR += 1
   IXR = IXR & 0xFFFF      # restore to 16 bits
   return
 
@@ -1256,7 +1256,6 @@ class Core(object):
     self.basicFont = pygame.font.SysFont(None, 15)
 
     # draw the core panel
-    print ('Draw the core panel')
     self.draw()
 
     self.label = Text(name = 'corelabel',topleft=(CORELEFT+20,CORETOP+5),
